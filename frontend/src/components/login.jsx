@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './login.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
 
 // Fonction d'authentification avec le backend
@@ -21,7 +21,6 @@ async function authenticate({ username, password }) {
 
 export default function Login() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
