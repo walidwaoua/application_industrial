@@ -1,6 +1,7 @@
-@tailwind base;
+/* Temporary removal of TailwindCSS directives until configuration is fixed */
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 /* Vos styles personnalisés après */
 body {
