@@ -1,7 +1,53 @@
-/* Styles pour l'en-tête */
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #34495e;
   color: white;
   padding: 10px 20px;
-  text-align: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-label {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.dashboard-title {
+  font-size: 1.5rem;
+}
+
+.header-nav {
+  display: flex;
+  gap: 15px;
+}
+
+.header-nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.header-nav a:hover {
+  color: #27ae60;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+  cursor: pointer;
 }

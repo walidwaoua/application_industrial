@@ -9,12 +9,27 @@ const Dashboard = () => {
       <Header />
       <div className="dashboard-main">
         <Sidebar />
-        <div className="dashboard-content">
-          <main>
-            <h1>Bienvenue sur le tableau de bord administrateur</h1>
-            <p>Utilisez le menu pour naviguer entre les sections.</p>
-          </main>
-        </div>
+        <main className="dashboard-content">
+          <h1>Tableau de bord Admin</h1>
+          <section className="dashboard-cards">
+            <div className="card">
+              <h2>Total Utilisateurs</h2>
+              <p>24</p>
+            </div>
+            <div className="card">
+              <h2>Formulaires</h2>
+              <p>156</p>
+            </div>
+            <div className="card">
+              <h2>En Attente</h2>
+              <p>8</p>
+            </div>
+            <div className="card">
+              <h2>Complétés</h2>
+              <p>148</p>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
   );

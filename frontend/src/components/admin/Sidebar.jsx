@@ -5,10 +5,10 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <ul>
-        <li><a href="#">Accueil</a></li>
-        <li><a href="#">Utilisateurs</a></li>
-        <li><a href="#">Paramètres</a></li>
-        <li><a href="#">Déconnexion</a></li>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/users">Utilisateurs</a></li>
+        <li><a href="/settings">Paramètres</a></li>
+        <li><a href="/logout">Déconnexion</a></li>
       </ul>
     </aside>
   );
