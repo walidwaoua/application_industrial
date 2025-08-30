@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './login.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios'; // Import Axios
 
-// Simulation d'authentification (à remplacer par votre API réelle)
+// Fonction d'authentification avec le backend
 async function authenticate({ username, password }) {
-  await new Promise(r => setTimeout(r, 550));
-  // Règles de démo : username >=3 chars, password >=6 chars
-  if (username.length < 3 || password.length < 6) {
-    const error = new Error('Nom d’utilisateur ou mot de passe invalide');
-    error.status = 401;
-    throw error;
+  try {
+    const response = await axios.post('http://localhost:8000/api/login/', {
+      username,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      throw new Error('Nom d’utilisateur ou mot de passe invalide');
+    }
+    throw new Error('Une erreur est survenue lors de la connexion');
   }
-  return {
-    token: 'mock-jwt-token',
-    user: { id: 1, name: username, username }
-  };
 }
 
 export default function Login() {
@@ -30,22 +32,22 @@ export default function Login() {
   const [touched, setTouched] = useState({ username: false, password: false });
   const [mounted, setMounted] = useState(false);
 
-  const fromPath = (location.state && location.state.from) || '/dashboard';
-
   useEffect(() => {
     const existing = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-    if (existing) navigate(fromPath, { replace: true });
-  }, [navigate, fromPath]);
+    if (existing) {
+      // navigate(fromPath, { replace: true }); // Navigation désactivée
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
   }, []);
 
-  // Validation username : lettres / chiffres / _ / - , 3 à 24 caractères
-  const usernamePattern = /^[A-Za-z0-9_-]{3,24}$/;
+  // Remove username validation pattern
+  const usernamePattern = /.*/; // Allow any username
   const usernameError = touched.username && !usernamePattern.test(username)
-    ? '3-24 caractères, lettres / chiffres / _ / -'
+    ? '' // No error message
     : '';
 
   const passwordError = touched.password && password.length < 6
@@ -65,7 +67,13 @@ export default function Login() {
       const storage = remember ? localStorage : sessionStorage;
       storage.setItem('auth_token', result.token);
       storage.setItem('auth_user', JSON.stringify(result.user));
-      navigate(fromPath, { replace: true });
+
+      // Redirection en fonction du rôle
+      if (result.role === 'admin') {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (result.role === 'technicien') {
+        navigate('/technicien/dashboard', { replace: true });
+      }
     } catch (err) {
       setFormError(err.message || 'Échec de connexion');
     } finally {

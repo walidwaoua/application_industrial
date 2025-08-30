@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
 
 
 class TechnicienViewSet(viewsets.ModelViewSet):
@@ -271,3 +273,32 @@ class EquipementViewSet(viewsets.ModelViewSet):
         Equipement = self.queryset.get(pk=pk)
         Equipement.delete()
         return Response(status=204)
+    
+
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]  # Accessible sans authentification
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        try:
+            # Rechercher l'utilisateur dans la table ConnexUser
+            connex_user = ConnexUser.objects.get(username=username)
+
+            # Vérifier le mot de passe
+            if not check_password(password, connex_user.password):
+                return Response({"error": "Nom d'utilisateur ou mot de passe invalide."}, status=status.HTTP_401_UNAUTHORIZED)
+
+            return Response({
+                "token": "fake-jwt-token",  # Remplacez par un vrai jeton si nécessaire
+                "role": connex_user.role,
+                "user": {
+                    "id": connex_user.id,
+                    "username": connex_user.username,
+                    "full_name": connex_user.get_full_name(),
+                }
+            }, status=status.HTTP_200_OK)
+
+        except ConnexUser.DoesNotExist:
+            return Response({"error": "Nom d'utilisateur ou mot de passe invalide."}, status=status.HTTP_401_UNAUTHORIZED)

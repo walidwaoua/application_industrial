@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import TechnicienViewSet, AdminViewSet,ConnexUserViewSet,FormulaireViewSet, StockViewSet, AtelierViewSet, EquipementViewSet
+from .views import TechnicienViewSet, AdminViewSet,ConnexUserViewSet,FormulaireViewSet, StockViewSet, AtelierViewSet, EquipementViewSet, LoginView
 from django.http import JsonResponse
 
 router = DefaultRouter()
@@ -14,3 +14,7 @@ router.register('equipements', EquipementViewSet, basename='equipement')
 
 
 urlpatterns = router.urls
+
+urlpatterns += [
+    path('login/', LoginView.as_view(), name='login'),
+]

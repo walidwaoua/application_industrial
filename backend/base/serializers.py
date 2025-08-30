@@ -18,11 +18,23 @@ class AdminSerializer(serializers.ModelSerializer):
 
 class ConnexUserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source='get_full_name', read_only=True)
-    
+
+    def validate(self, data):
+        role = data.get('role')
+        technicien = data.get('technicien')
+        admin = data.get('admin')
+
+        if role == 'technicien' and not technicien:
+            raise serializers.ValidationError("Le champ 'technicien' est requis pour le rôle 'technicien'.")
+        if role == 'admin' and not admin:
+            raise serializers.ValidationError("Le champ 'admin' est requis pour le rôle 'admin'.")
+
+        return data
+
     class Meta:
         model = ConnexUser
-        fields = ('id', 'username', 'role', 'full_name','password', 'created_at', 'technicien', 'admin')
-        read_only_fields = ('id', 'created_at', 'password')
+        fields = ('id', 'username', 'role', 'full_name', 'password', 'created_at', 'technicien', 'admin')
+        read_only_fields = ('id', 'created_at')
 
 
 class ConnexionLogSerializer(serializers.ModelSerializer):
