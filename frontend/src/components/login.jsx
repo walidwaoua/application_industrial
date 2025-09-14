@@ -3,6 +3,19 @@ import './login.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
 
+//  configurer axios avec l'utilisateur courant
+function applyAxiosAuthFromStorage() {
+  const ls = localStorage.getItem('auth_user');
+  const ss = sessionStorage.getItem('auth_user');
+  const user = ls ? JSON.parse(ls) : (ss ? JSON.parse(ss) : null);
+  axios.defaults.baseURL = 'http://localhost:8000/api';
+  if (user?.id) {
+    axios.defaults.headers.common['Authorization'] = `Session ${user.id}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+}
+
 // Fonction d'authentification avec le backend
 async function authenticate({ username, password }) {
   try {
@@ -28,15 +41,21 @@ export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const [formError, setFormError] = useState('');
   const [touched, setTouched] = useState({ username: false, password: false });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const existing = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-    if (existing) {
-      // navigate(fromPath, { replace: true }); // Navigation désactivée
+    // Si déjà authentifié, ne pas rester sur /login
+    const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+    if (token) {
+      applyAxiosAuthFromStorage();
+      navigate('/admin/dashboard', { replace: true });
+      return;
     }
+    // Sinon, juste configurer axios de base
+    applyAxiosAuthFromStorage();
   }, [navigate]);
 
   useEffect(() => {
@@ -44,10 +63,10 @@ export default function Login() {
     return () => cancelAnimationFrame(t);
   }, []);
 
-  // Remove username validation pattern
-  const usernamePattern = /.*/; // Allow any username
+  // Validation des champs
+  const usernamePattern = /.*/; // Accepte tout pour le nom d'utilisateur
   const usernameError = touched.username && !usernamePattern.test(username)
-    ? '' // No error message
+    ? '' // Pas de message d'erreur
     : '';
 
   const passwordError = touched.password && password.length < 6
@@ -67,13 +86,16 @@ export default function Login() {
       const storage = remember ? localStorage : sessionStorage;
       storage.setItem('auth_token', result.token);
       storage.setItem('auth_user', JSON.stringify(result.user));
+      storage.setItem('auth_role', result.role);
 
-      // Redirection en fonction du rôle
-      if (result.role === 'admin') {
+      // Configure axios pour TOUTES les futures requêtes
+      applyAxiosAuthFromStorage();
+
+      // Petit écran de chargement avant redirection vers le dashboard  loading
+      setRedirecting(true);
+      setTimeout(() => {
         navigate('/admin/dashboard', { replace: true });
-      } else if (result.role === 'technicien') {
-        navigate('/technicien/dashboard', { replace: true });
-      }
+      }, 1400);
     } catch (err) {
       setFormError(err.message || 'Échec de connexion');
     } finally {
@@ -83,6 +105,15 @@ export default function Login() {
 
   return (
     <div className={`login-page ${mounted ? 'is-mounted' : ''}`}>
+      {redirecting && (
+        <div className="redirect-overlay" role="status" aria-live="polite">
+          <div className="redirect-box">
+            <div className="big-spinner" />
+            <div className="redirect-text">Connexion réussie — redirection…</div>
+            <div className="redirect-progress"><span /></div>
+          </div>
+        </div>
+      )}
       <div className="bg-orb orb-1" aria-hidden="true"></div>
       <div className="bg-orb orb-2" aria-hidden="true"></div>
       <div className="bg-grid" aria-hidden="true"></div>
@@ -268,7 +299,7 @@ export default function Login() {
                   onClick={() => alert('Implémenter la réinitialisation du mot de passe')}
                   disabled={loading}
                 >
-                  Mot de passe oublié ?
+                  
                 </button>
               </div>
 
@@ -290,20 +321,7 @@ export default function Login() {
               </div>
             </form>
 
-            <p
-              className={`signup-hint fade-item ${mounted ? 'in' : ''}`}
-              style={{ '--delay': '420ms' }}
-            >
-              Besoin d’un compte ?{' '}
-              <span
-                className="fake-link"
-                onClick={() =>
-                  alert('Flux de demande d’accès à implémenter')
-                }
-              >
-                Demander un accès
-              </span>
-            </p>
+           
           </div>
         </div>
       </div>

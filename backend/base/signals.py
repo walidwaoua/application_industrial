@@ -11,3 +11,6 @@ def calculate_duree_connexion(sender, instance, **kwargs):
         end = timedelta(hours=instance.heure_deconnexion.hour, minutes=instance.heure_deconnexion.minute)
         instance.duree_connexion = end - start
         instance.save()
+
+
+#comme j'ai dit dans models.py cette fonction est implementée dans le modèle mais il n'est pas utilisé juste s'il aurait une amélioration future

@@ -1,0 +1,54 @@
+.users-root { position: relative; padding: 20px 16px 48px; min-height: 100vh; }
+
+/* effet glass réutilisable */
+.glass {
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(76,175,80,.22);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 18px 45px rgba(0,0,0,.10);
+  border-radius: 16px;
+}
+
+/* Hero */
+.users-hero {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 18px 16px; margin-bottom: 12px;
+  background:
+    radial-gradient(1200px 200px at 10% -30%, rgba(165,214,167,.35), transparent 55%),
+    radial-gradient(1200px 220px at 90% -40%, rgba(200,230,201,.35), transparent 60%),
+    rgba(255,255,255,.78);
+}
+.hero-title { font-weight: 800; display:flex; align-items:center; gap:8px; }
+.hero-title-icon { filter: drop-shadow(0 2px 4px rgba(46,125,50,.25)); }
+.hero-sub { opacity:.85; }
+.btn-icon { color:#1b5e20 !important; }
+
+/* Toolbar */
+.users-toolbar {
+  display:flex; align-items:center; gap:10px; padding: 12px; margin-bottom:10px;
+}
+.search .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color:#2e7d32 !important; box-shadow:0 0 0 3px rgba(46,125,50,.14);
+}
+.count {
+  background:#1b5e20; color:#fff; border-radius:999px; padding:4px 10px; font-weight:800;
+}
+
+/* Table */
+.users-table { overflow:hidden; }
+.thead th, .thead .MuiTableCell-root { font-weight:800; background:rgba(76,175,80,.08); }
+.row { transition: transform .12s ease, background .18s ease; }
+.row:hover { transform: translateX(2px); background: rgba(46,125,50,.05); }
+.cell { display:flex; align-items:center; gap:8px; }
+.avatar { color:#2e7d32; }
+.empty { text-align:center !important; padding: 22px 0 !important; }
+
+.chip-admin { background: rgba(46,125,50,.1) !important; color:#1b5e20 !important; font-weight:700 !important; }
+.chip-tech { background: rgba(56,142,60,.08) !important; color:#1b5e20 !important; font-weight:700 !important; }
+
+.btn-primary {
+  background: linear-gradient(135deg,#43a047,#2e7d32) !important;
+  color:#fff !important; text-transform:none !important; font-weight:800 !important;
+  border-radius:12px !important;
+}
+.btn-icon.danger { color:#b71c1c !important; }

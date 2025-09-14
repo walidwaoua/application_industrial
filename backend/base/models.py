@@ -215,7 +215,7 @@ class Formulaire(models.Model):
     methode_entretien = models.CharField(max_length=255)
     nature_panne = models.CharField(max_length=255)
     cause_panne = models.CharField(max_length=255)
-    indice_gravite = models.IntegerField()
+    indice_gravite = models.CharField(max_length=255)
     piece_rechange = models.TextField()
     travaux_effectues = models.TextField() 
     etat_action_immediate = models.TextField()
@@ -226,6 +226,11 @@ class Formulaire(models.Model):
         if self.heure_debut and self.heure_fin:
             start = timedelta(hours=self.heure_debut.hour, minutes=self.heure_debut.minute)
             end = timedelta(hours=self.heure_fin.hour, minutes=self.heure_fin.minute)
+
+            # Si l'heure de fin est inférieure à l'heure de début, ajouter 24 heures à l'heure de fin
+            if end < start:
+                end += timedelta(days=1)
+
             self.heuregen = end - start
         super().save(*args, **kwargs)
 
@@ -243,3 +248,8 @@ class Stock(models.Model):
 
 
 # Create your models here.
+
+
+#les models de enregistrements de session de connexion et de deconnexion des utilisateurs (tchenicien ) ne sont pas utiliser 
+#et leur views aussi ne sont pas utiliser dans le projet
+#ils sont creer juste pour le cas d'une evolution future du projet

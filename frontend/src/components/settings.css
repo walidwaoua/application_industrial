@@ -1,0 +1,43 @@
+/* Settings page — green professional style */
+.settings-root { --g1:#2e7d32; --g2:#43a047; }
+
+.settings-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--g1), var(--g2));
+  padding: 72px 16px;
+  color: #fff;
+  overflow: hidden;
+}
+.settings-hero .sheen {
+  position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  animation: sheen 6s linear infinite;
+}
+@keyframes sheen { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+.settings-hero-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:center; gap:16px; position:relative; z-index:1; text-align:center; }
+.settings-ic{ width:84px; height:84px; background: rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); font-size:34px; }
+.settings-meta{ display:flex; flex-direction:column; gap:6px; margin-left:8px; }
+.settings-title{ font-size:32px; font-weight:900; letter-spacing:.2px; }
+.settings-sub{ opacity:.95; font-size:15px; }
+
+.orbs { position:absolute; inset:0; overflow:hidden; }
+.orb { position:absolute; border-radius:50%; filter: blur(30px); opacity:.35; animation: float 16s ease-in-out infinite; }
+.orb.o1{ width:220px; height:220px; background:#fff; top:-40px; left:-40px; }
+.orb.o2{ width:180px; height:180px; background:#b7e1c1; bottom:-30px; right:80px; animation-duration:18s; }
+.orb.o3{ width:140px; height:140px; background:#a5d6a7; top:20px; right:-30px; animation-duration:20s; }
+@keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-14px) } }
+
+.settings-content{ max-width:1200px; margin:32px auto; padding:0 16px; }
+.settings-card{ padding:24px; border-radius:18px; border:1px solid #d7ead9; background:#fff; box-shadow: 0 8px 24px rgba(46,125,50,0.08); }
+.settings-card .card-title{ font-weight:900; margin-bottom:10px; color:#1b5e20; text-align:center; font-size:18px; }
+.settings-card .card-body{ display:grid; gap:14px; padding-top:10px; }
+.settings-card .card-actions{ display:flex; justify-content:flex-end; }
+.btn-green{ background: var(--g1) !important; }
+.btn-green:hover{ background: var(--g2) !important; }
+
+.tips{ margin:16px 8px; padding-left:20px; line-height:1.9; color:#1b5e20; font-size:15px; }
+.fadein{ animation: fadein .5s ease both; }
+.fadein.d2{ animation-delay:.08s; }
+@keyframes fadein { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }

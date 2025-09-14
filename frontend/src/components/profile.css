@@ -1,0 +1,53 @@
+/* Profile page styling - green fluent style */
+.profile-root { --g1:#2e7d32; --g2:#43a047; }
+
+.profile-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--g1), var(--g2));
+  padding: 48px 16px;
+  color: #fff;
+  overflow: hidden;
+}
+.profile-hero .sheen {
+  position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  animation: sheen 6s linear infinite;
+}
+@keyframes sheen { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+.hero-inner { max-width: 1200px; margin: 0 auto; display:flex; align-items:center; justify-content:flex-start; gap:20px; position:relative; z-index:1; padding: 8px 0; }
+.hero-left{ display:flex; align-items:center; gap:20px; }
+.hero-avatar { width:96px; height:96px; background: rgba(255,255,255,0.18); font-weight:700; font-size:36px; border:1px solid rgba(255,255,255,0.35); }
+.hero-meta { display:flex; flex-direction:column; gap:6px; }
+.hero-title { font-size: 34px; font-weight: 900; letter-spacing: .2px; text-transform: capitalize; }
+.hero-sub { opacity:.95; font-size: 15px; }
+.hero-chips{ margin-top:6px; }
+.role-chip { background: rgba(255,255,255,.22); color:#fff; border:1px solid rgba(255,255,255,.25); backdrop-filter: blur(8px); }
+.role-chip.admin{ background: rgba(255,255,255,.26); }
+.role-chip.tech{ background: rgba(0,0,0,.1); }
+
+.orbs { position:absolute; inset:0; overflow:hidden; }
+.orb { position:absolute; border-radius:50%; filter: blur(30px); opacity:.35; animation: float 16s ease-in-out infinite; }
+.orb.o1{ width:220px; height:220px; background:#fff; top:-40px; left:-40px; }
+.orb.o2{ width:180px; height:180px; background:#b7e1c1; bottom:-30px; right:80px; animation-duration: 18s; }
+.orb.o3{ width:140px; height:140px; background:#a5d6a7; top:20px; right:-30px; animation-duration: 20s; }
+@keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-14px) } }
+
+.profile-content { max-width:1200px; margin: 28px auto; padding: 0 16px; }
+.card { padding:20px; border-radius:18px; position:relative; overflow:hidden; border:1px solid #d7ead9; background:#fff; box-shadow: 0 8px 24px rgba(46,125,50,0.08); }
+.card .card-title{ font-weight:900; margin-bottom:10px; color:#1b5e20; text-align:left; font-size:18px; }
+.card .card-body{ display:grid; grid-template-columns: 1fr; gap:12px; padding-top:12px; }
+.field{ display:grid; grid-template-columns: 240px 1fr; align-items:center; gap:16px; border-bottom:1px dashed #e6f3e7; padding:8px 0; }
+.field:last-child{ border-bottom:none; }
+.field span{ opacity:.72; }
+.field b{ font-weight:600; }
+.card .card-actions{ margin-top:12px; display:flex; justify-content:flex-end; }
+.btn-green{ background: var(--g1); }
+.btn-green:hover{ background: var(--g2); }
+
+.fadein{ animation: fadein .5s ease both; }
+.fadein.d2{ animation-delay: .06s; }
+.fadein.d3{ animation-delay: .12s; }
+.fadein.d4{ animation-delay: .18s; }
+@keyframes fadein { from{ opacity:0; transform: translateY(6px)} to{ opacity:1; transform:none } }

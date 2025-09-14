@@ -454,6 +454,68 @@ form { display: grid; gap: 1.25rem; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Overlay après connexion réussie */
+.redirect-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), rgba(0,0,0,0.7));
+  backdrop-filter: blur(2.5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.redirect-box {
+  position: relative;
+  background: linear-gradient(180deg, rgba(24,35,48,0.95), rgba(24,35,48,0.85));
+  border: 1px solid rgba(39,202,63,0.25);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  border-radius: 18px;
+  padding: 28px 32px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.big-spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 0deg, #79ff94, #27ca3f, #1a8f2b 70%, rgba(255,255,255,0.2) 100%);
+  -webkit-mask: radial-gradient(circle 18px, transparent 16px, #000 17px);
+  mask: radial-gradient(circle 18px, transparent 16px, #000 17px);
+  animation: spin 0.8s linear infinite, glow 2.2s ease-in-out infinite;
+}
+.redirect-text {
+  color: #e6ffe8;
+  font-weight: 700;
+  letter-spacing: .35px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+}
+.redirect-progress {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.redirect-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(39,202,63,0.9), #79ff94);
+  animation: loadbar 1.2s ease-out forwards;
+}
+
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 0 rgba(39,202,63,0.0); }
+  50% { box-shadow: 0 0 24px rgba(39,202,63,0.35); }
+}
+
+@keyframes loadbar { from { width: 0; } to { width: 100%; } }
+
 .alert {
   padding: 0.85rem 1rem;
   border-radius: var(--radius);
