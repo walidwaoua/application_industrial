@@ -18,7 +18,6 @@ import "./dashboard.css";
 /* =================== API =================== */
 const API = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
 const ENDPOINTS = {
-  overview: `${API}/api/dashboard/overview/`,   // optionnel (tombe en fallback si 404)
   techniciens: `${API}/api/techniciens/`,
   admins: `${API}/api/admins/`,
   forms: `${API}/api/formulaires/`,
@@ -171,13 +170,7 @@ function useDashboardData() {
   const fetchOnce = async () => {
     try {
       setLoading(true);
-      const r = await fetch(ENDPOINTS.overview);
-      if (r.ok) {
-        const j = await r.json();
-        setData(j);
-      } else {
-        setData(await buildFromFallback());
-      }
+      setData(await buildFromFallback());
     } catch {
       setData(await buildFromFallback());
     } finally {
